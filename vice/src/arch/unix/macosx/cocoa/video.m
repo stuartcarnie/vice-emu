@@ -120,6 +120,18 @@ static int set_true_pixel_aspect(int val, void *param)
     return 0;
 }
 
+static int set_disable_filtering(int val, void *param) {
+    if (val)
+        val = 1;
+    else
+        val = 0;
+    
+    if (val != video_param.disable_filtering) {
+        video_param.disable_filtering = val;
+        video_reconfigure(0);
+    }
+}
+
 static resource_int_t resources_int[] =
 {
     { "SyncDrawMode", 0, RES_EVENT_NO, NULL,
@@ -130,6 +142,8 @@ static resource_int_t resources_int[] =
        &video_param.sync_draw_flicker_fix, set_sync_draw_flicker_fix, NULL },
     { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
        &video_param.true_pixel_aspect, set_true_pixel_aspect, NULL },
+    { "DisableFiltering", 1, RES_EVENT_NO, NULL,
+        &video_param.disable_filtering, set_disable_filtering, NULL },
     { NULL }
  };
 
@@ -175,6 +189,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Disable true aspect ratio") },
+    { "-videoFiltering", SET_RESOURCE, 0,
+      NULL, NULL, "DisableFiltering", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Disable video filtering") },
+    { "+videoFiltering", SET_RESOURCE, 0,
+        NULL, NULL, "DisableFiltering", (resource_value_t)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Enable video filtering") },
     { NULL }
 };
 

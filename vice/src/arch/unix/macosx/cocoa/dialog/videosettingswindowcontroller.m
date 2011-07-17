@@ -259,8 +259,19 @@ static const char *ted_palettes[] = {
     [oddLineOffsetText     setFloatValue:oddLineOffset];
 }
 
+-(void)updateDisplayResources
+{
+    BOOL useTrueAspectRatio = [self getIntResource:@"TrueAspectRatio"];
+    BOOL useDisableFiltering = [self getIntResource:@"DisableFiltering"];
+    
+    [trueAspectRatio setState:useTrueAspectRatio];
+    [disableFiltering setState:useDisableFiltering];
+}
+
 -(void)updateResources:(NSNotification *)notification
 {
+    NSLog(@"updateResources");
+    
     if(chip1Title != nil) {
         [self updatePalette1Resources];
     }
@@ -274,6 +285,7 @@ static const char *ted_palettes[] = {
     if(hasCRTEmuTab) {
         [self updatePALResources];
     }
+    [self updateDisplayResources];
 }
 
 // ----- Actions -----
@@ -435,5 +447,18 @@ static const char *ted_palettes[] = {
         [self updatePalette2Resources];
     }
 }
+
+-(IBAction)toggleTrueAspectRatio:(id)sender {
+    VICEAppController *appCtrl = [VICEApplication theAppController];
+    BOOL on = [sender state];
+    [self setIntResource:@"TrueAspectRatio" toValue:on];
+}
+
+-(IBAction)toggleDisableFiltering:(id)sender {
+    VICEAppController *appCtrl = [VICEApplication theAppController];
+    BOOL on = [sender state];
+    [self setIntResource:@"DisableFiltering" toValue:on];
+}
+
 
 @end

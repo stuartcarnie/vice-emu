@@ -832,6 +832,8 @@
 		</dict>
 		<key>Display</key>
 		<dict>
+			<key>Disable Filtering</key>
+			<string>DisableFiltering,b</string>
 			<key>Sync Draw</key>
 			<string>SyncDrawMode,e,Off,Nearest,Blend</string>
 			<key>Sync Draw Flicker Fix</key>

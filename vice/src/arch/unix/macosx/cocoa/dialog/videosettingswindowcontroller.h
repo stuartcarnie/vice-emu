@@ -64,6 +64,9 @@
     IBOutlet NSPopUpButton *palette2Popup;
     IBOutlet NSButton      *palette2Pick;
     
+    IBOutlet NSButton      *trueAspectRatio;
+    IBOutlet NSButton      *disableFiltering;
+    
     BOOL hasColorTab;
     BOOL hasCRTEmuTab;
     
@@ -107,5 +110,8 @@
 -(IBAction)togglePalette2:(id)sender;
 -(IBAction)popupPalette2:(id)sender;
 -(IBAction)pickPalette2:(id)sender;
+
+-(IBAction)toggleTrueAspectRatio:(id)sender;
+-(IBAction)toggleDisableFiltering:(id)sender;
 
 @end

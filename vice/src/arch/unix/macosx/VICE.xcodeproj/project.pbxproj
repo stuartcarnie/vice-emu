@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05204E3F13D2AC73008F2D7E /* VideoSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 05204E3D13D2AC73008F2D7E /* VideoSettings.nib */; };
+		05204E4313D2ACE2008F2D7E /* videosettingswindowcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 05204E4213D2ACE2008F2D7E /* videosettingswindowcontroller.m */; };
+		05204E4C13D2BA42008F2D7E /* ResourceTree.plist in Resources */ = {isa = PBXBuildFile; fileRef = 05204E4A13D2BA42008F2D7E /* ResourceTree.plist */; };
 		83E499CD0DE4CA54001DE90F /* IECDriveSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */; };
 		83E499CE0DE4CA54001DE90F /* SoundSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4998D0DE4C8C8001DE90F /* SoundSettings.nib */; };
 		83E499CF0DE4CA54001DE90F /* KeyboardSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 83E4997F0DE4C8C8001DE90F /* KeyboardSettings.nib */; };
@@ -71,6 +74,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05204E3E13D2AC73008F2D7E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = VideoSettings.nib; sourceTree = "<group>"; };
+		05204E4113D2ACE2008F2D7E /* videosettingswindowcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videosettingswindowcontroller.h; sourceTree = "<group>"; };
+		05204E4213D2ACE2008F2D7E /* videosettingswindowcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videosettingswindowcontroller.m; sourceTree = "<group>"; };
+		05204E4813D2B56D008F2D7E /* videoparam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoparam.h; sourceTree = "<group>"; };
+		05204E4B13D2BA42008F2D7E /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = English; path = ResourceTree.plist; sourceTree = "<group>"; };
 		83E4997A0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = DriveSettings.nib; sourceTree = "<group>"; };
 		83E4997C0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = IECDriveSettings.nib; sourceTree = "<group>"; };
 		83E4997E0DE4C8C8001DE90F /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = JoystickSettings.nib; sourceTree = "<group>"; };
@@ -193,6 +201,8 @@
 		83E499780DE4C8C8001DE90F /* English.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				05204E4A13D2BA42008F2D7E /* ResourceTree.plist */,
+				05204E3D13D2AC73008F2D7E /* VideoSettings.nib */,
 				83E49A860DE6B6AA001DE90F /* RecordMedia.nib */,
 				83E499790DE4C8C8001DE90F /* DriveSettings.nib */,
 				83E4997B0DE4C8C8001DE90F /* IECDriveSettings.nib */,
@@ -241,6 +251,7 @@
 				83E49A220DE4CCA9001DE90F /* vicemachinenotifier.m */,
 				83E49A230DE4CCA9001DE90F /* vicemachineprotocol.h */,
 				83E49A240DE4CCA9001DE90F /* vicenotifications.h */,
+				05204E4813D2B56D008F2D7E /* videoparam.h */,
 				83E49A250DE4CCA9001DE90F /* video.m */,
 				83E49A260DE4CCA9001DE90F /* videoarch.h */,
 				83E49A270DE4CCA9001DE90F /* view */,
@@ -252,6 +263,8 @@
 		83E499E50DE4CCA9001DE90F /* dialog */ = {
 			isa = PBXGroup;
 			children = (
+				05204E4113D2ACE2008F2D7E /* videosettingswindowcontroller.h */,
+				05204E4213D2ACE2008F2D7E /* videosettingswindowcontroller.m */,
 				83E49A810DE6B688001DE90F /* recordmediawindowcontroller.h */,
 				83E49A820DE6B688001DE90F /* recordmediawindowcontroller.m */,
 				83E499E60DE4CCA9001DE90F /* drivesettingswindowcontroller.h */,
@@ -360,7 +373,12 @@
 			isa = PBXProject;
 			buildConfigurationList = 83E499610DE4C808001DE90F /* Build configuration list for PBXProject "VICE" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				English,
+			);
 			mainGroup = 83E4995C0DE4C808001DE90F;
 			productRefGroup = 83E499A60DE4C96B001DE90F /* Products */;
 			projectDirPath = "";
@@ -390,6 +408,8 @@
 				83E49A580DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A6E0DE4CCA9001DE90F /* Makefile.am in Resources */,
 				83E49A880DE6B6AA001DE90F /* RecordMedia.nib in Resources */,
+				05204E3F13D2AC73008F2D7E /* VideoSettings.nib in Resources */,
+				05204E4C13D2BA42008F2D7E /* ResourceTree.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,12 +467,29 @@
 				83E49A730DE4CCA9001DE90F /* vicewindow.m in Sources */,
 				83E49A740DE4CCA9001DE90F /* vsidui.m in Sources */,
 				83E49A830DE6B688001DE90F /* recordmediawindowcontroller.m in Sources */,
+				05204E4313D2ACE2008F2D7E /* videosettingswindowcontroller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		05204E3D13D2AC73008F2D7E /* VideoSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05204E3E13D2AC73008F2D7E /* English */,
+			);
+			name = VideoSettings.nib;
+			sourceTree = "<group>";
+		};
+		05204E4A13D2BA42008F2D7E /* ResourceTree.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05204E4B13D2BA42008F2D7E /* English */,
+			);
+			name = ResourceTree.plist;
+			sourceTree = "<group>";
+		};
 		83E499790DE4C8C8001DE90F /* DriveSettings.nib */ = {
 			isa = PBXVariantGroup;
 			children = (

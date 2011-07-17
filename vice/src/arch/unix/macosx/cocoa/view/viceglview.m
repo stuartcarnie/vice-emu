@@ -40,6 +40,12 @@
 // import video log
 extern log_t video_log;
 
+@interface VICEGLView()
+
+- (void)setFiltering;
+
+@end
+
 //#define DEBUG_SYNC
 
 @implementation VICEGLView
@@ -251,9 +257,25 @@ extern log_t video_log;
     // configure GL blending
     [self toggleBlending:blendingEnabled];
     
+    [self setFiltering];
+    
     // disable unused pixel buffer
     if(!usePixelBuffer) {
         [self deletePixelBuffer];
+    }
+}
+
+- (void)setFiltering {
+    int i;
+    for (i=0; i<numTextures; i++) {
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[i].bindId);
+        if (video_param.disable_filtering == YES) {
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        } else {
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        }
     }
 }
 
@@ -915,9 +937,15 @@ extern log_t video_log;
 
     glGenTextures(1,&pixelBufferTextureId);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, pixelBufferTextureId);
-    
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    if (video_param.disable_filtering == YES) {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    } else {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP);    
 
@@ -993,9 +1021,10 @@ extern log_t video_log;
 {
     int i;
     
-    log_message(video_log, "setup textures: #%d %g x %g (was: #%d %g x %g)", 
+    log_message(video_log, "setup textures: #%d %g x %g (was: #%d %g x %g), filtering=%s", 
                 num, size.width, size.height, 
-                numTextures, textureSize.width, textureSize.height);
+                numTextures, textureSize.width, textureSize.height,
+                video_param.disable_filtering ? "off" : "on");
 
     // clean up old textures
     if(numTextures > num) {
@@ -1056,8 +1085,14 @@ extern log_t video_log;
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,
                         GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
 
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        if (video_param.disable_filtering == YES) {
+            
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        } else {
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        }
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP);    
 
