@@ -6,15 +6,86 @@
 #                 $1           $2      $3             $4          $5               $6        $7
 RUN_PATH=`dirname $0`
 
+show_help() {
+	cat << EOF
+Options:
+	-t <path	set top source dir to <path>
+	-s		strip
+	-v <version>	vice version
+	-z		zip
+	-x		x64sc is included
+	-u <type>	UI type (cocoa, x11 or gtk), default cocoa
+	-b <type>	binary format (i386, x86_64 or ppc), default autodetect
+	-e <emulator>	build specific emulator (x64,x64dtv,x64sc,x128,xcbm2,xpet,xplus4,xvic), default to all
+	-h		this help
+	-b		build app bundle only
+EOF
+}
+
+# defaults
+
+STRIP=nostrip
+ZIP=zip
+X64SC=no
+UI_TYPE=cocoa
+BUILD_BUNDLE_ONLY=no
+
+while getopts "bht:sv:zxu:b:e:" flag;
+do
+	case $flag in
+		h)
+		show_help
+		exit
+		;;
+		
+		b)
+		BUILD_BUNDLE_ONLY=yes
+		;;
+		
+		t)
+		pushd $OPTARG
+		TOP_DIR=`pwd`
+		popd
+		;;
+		
+		s)
+		STRIP=strip
+		;;
+		
+		v)
+		VICE_VERSION=$OPTARG
+		;;
+		
+		z)
+		ZIP=nozip
+		;;
+		
+		x)
+		X64SC=yes
+		;;
+		
+		u)
+		UI_TYPE=$OPTARG
+		;;
+		
+		b)
+		BIN_FORMAT=$OPTARG
+		;;
+		
+		e)
+		AEMULATOR=$OPTARG
+		
+	esac
+done
+
 echo "Generating Mac OSX binary distribution."
 
-TOP_DIR=$1
-STRIP=$2
-VICE_VERSION=$3
-ZIP=$4
-X64SC=$5
-UI_TYPE=$6
-BIN_FORMAT=$7
+echo "Top directory: $TOP_DIR"
+echo "Strip: $STRIP"
+echo "Vice Version: $VICE_VERSION"
+echo "Zip: $ZIP"
+echo "Emulator: $AEMULATOR"
+echo "Do c1541: $DO_1541"
 
 # ui type
 if [ "x$UI_TYPE" = "x" ]; then
@@ -72,6 +143,10 @@ fi
 
 # define emulators and command line tools
 EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+if [ x"$AEMULATOR" != "x" ]; then
+	EMULATORS=$AEMULATOR
+	echo "building $AEMULATOR"
+fi
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators
@@ -342,17 +417,19 @@ for bundle in $BUNDLES ; do
   (cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
 
   # embed c1541
-  echo -n "[c1541] "
-  if [ ! -e src/c1541 ]; then
-    echo "ERROR: missing binary: src/c1541"
-    exit 1
-  fi
-  cp src/c1541 $APP_BIN/
+  if [ "$BUILD_BUNDLE_ONLY" = "no" ]; then	
+    echo -n "[c1541] "
+    if [ ! -e src/c1541 ]; then
+      echo "ERROR: missing binary: src/c1541"
+      exit 1
+    fi
+    cp src/c1541 $APP_BIN/
 
-  # strip embedded c1541 binary
-  if [ x"$STRIP" = "xstrip" ]; then
-    echo -n "[strip c1541] "
-    /usr/bin/strip $APP_BIN/c1541
+    # strip embedded c1541 binary
+    if [ x"$STRIP" = "xstrip" ]; then
+      echo -n "[strip c1541] "
+      /usr/bin/strip $APP_BIN/c1541
+    fi
   fi
 
   # any dylibs required?
@@ -424,6 +501,10 @@ for bundle in $BUNDLES ; do
 
 done
 
+if [ $BUILD_BUNDLE_ONLY = "yes" ]; then
+	exit 0
+fi
+
 # --- copy tools ---
 for tool in $TOOLS ; do
   echo -n "  copying tool $tool: "
@@ -435,7 +516,7 @@ for tool in $TOOLS ; do
     exit 1
   fi
   cp src/$tool $TOOL_DIR/
-  
+ 
   # strip binary
   if [ x"$STRIP" = "xstrip" ]; then
     echo -n "[strip] "
