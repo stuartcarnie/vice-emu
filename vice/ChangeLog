@@ -1,4 +1,9 @@
 ------------------------------------------------------------------------------
+2011-07-17 Stuart Carnie <stuart.carnie@gmail.com>
+	* Modified vice/src/arch/unix/macosx/make-bindist.sh to use getopts and allow building specific emulator
+	* Added new video parameter to allow disabling filtering of the GL texture (GL_NEAREST)
+	* Added new command line option for Mac OS X, +-videoFiltering, to disable texture filtering
+	* Added new tab (Display) to configure Video Settings for True Aspect Ratio and Disable Filtering
 
 2011-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
